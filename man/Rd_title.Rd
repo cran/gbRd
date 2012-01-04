@@ -22,13 +22,15 @@ Rd_args(s)
   \item{eltag}{the element tag, a string}
 }
 \details{
-  Atrribute "Rd_tag" of the object \code{s} is set to \code{eltag}, then
-  \code{s} is wrapped in \code{list()} whose "Rd_tag" attribute is set
-  to \code{sectag}.  For the functions that do not have these arguments,
-  these are hard-coded. \code{eltag} is "TEXT" for \code{Rd_title} and
-  "VERB" for \code{Rd_name} and \code{Rd_args}.
-  The values of \code{sectag} are "\\title", "\\name" and "\\arguments",
-  respectively.
+  \code{Rdo_set_sectag} sets atrribute "Rd_tag" of the object \code{s}
+  to \code{eltag}, then wraps \code{s} in \code{list()} with "Rd_tag"
+  attribute \code{sectag}.
+
+  The remaining functions provide one-argument access for some
+  frequently used special cases.  \code{eltag} is "TEXT" for
+  \code{Rd_title} and "VERB" for \code{Rd_name} and \code{Rd_args}.  The
+  values of \code{sectag} are \verb{\title}, \verb{\name} and
+  \verb{\arguments}, respectively.
 }
 \value{
   A tagged list as described in Details.
@@ -47,6 +49,8 @@ Rd_args(s)
 \examples{
 Rd_title("My seq")
 Rd_name("myseq")
+
+"a" \%in\% letters
 
 # to do: more examples
 }

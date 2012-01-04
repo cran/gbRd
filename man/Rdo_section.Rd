@@ -14,22 +14,21 @@ Rdo_section(rdo, sec)
   \item{sec}{the required section, a string}
 }
 \details{
-  If the "Rd_tag" attribute of \code{rdo} is "Rd" the required section
-  is extracted using \code{tools:::RdTags()}. Otherwise, if this
-  attribute is equal to \code{sec}, then \code{rdo} is returned.
+  If the class or the "Rd_tag" attribute of \code{rdo} is "Rd" the
+  required section is extracted. Otherwise, if this attribute is equal to
+  \code{sec}, then \code{rdo} is returned.
 
   In all other cases it is assumed that \code{rdo} is the contents of
   the required section, its "Rd_tag" attribute is set to \code{sec} and
   returned without further modification.
 }
 \value{
-  An Rd fragment for use as section element of an Rd object
+  An Rd fragment for use as a section element of an Rd object
 }
 \author{Georgi N. Boshnakov}
 \note{
-  This function is essentially a wrapper of \code{tools:::RdTags} with
-  the additional facility to accept certain fragments. It is intended for
-  use by other functions which work with  Rd objects.
+  This function is  intended for use by other functions which work with
+  Rd objects.
 }
 % \seealso{
 % %% ~~objects to See Also as \code{\link{help}}, ~~~

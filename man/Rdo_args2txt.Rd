@@ -16,8 +16,8 @@ Rdo_args2txt(rdo, arg, title = "Hhh", name = "Aa", type = "text")
     of a function, or the value returned by \code{help}.}
   \item{arg}{name(s) of argument(s) to describe, a character vector, see
     also Details section}
-  \item{title}{Title}
-  \item{name}{name}
+  \item{title}{Title, a string}
+  \item{name}{name, a string}
   \item{type}{type of the help, defaults to "text"}
 }
 \details{
@@ -48,9 +48,9 @@ Rdo_args2txt(rdo, arg, title = "Hhh", name = "Aa", type = "text")
 \code{\link{Rdo_args2txt_list}}
 }
 \examples{
+# ?seq
 cat(Rdo_args2txt("seq", c("by", "...")))
 cat(Rdo_args2txt("seq", c("from", "by")))
-
 }
 % % Add one or more standard keywords, see file 'KEYWORDS' in the
 % % R documentation directory.

@@ -1,45 +1,37 @@
+\title{
+  Create basic Rd objects
+}
 \name{Rdo_create}
 \alias{Rdo_create}
-%- Also NEED an '\alias' for EACH other topic documented here.
-\title{
-  Create a basic Rd object
-}
+\alias{Rdo_empty}
+\keyword{ Rd }
 \description{
-  Create a basic Rd object with fields title, name and arguments.
+  Create basic Rd objects with fields title, name and arguments.
 }
 \usage{
 Rdo_create(arguments, title = "Dummy title", name = "dummy name")
+
+Rdo_empty(rdtag)
 }
 \arguments{
   \item{arguments}{The \code{argument} field of an Rd object}
   \item{title}{the title, a string}
   \item{name}{the name, atring}
+  \item{rdtag}{a value for "Rd_tag", a string.}
 }
 \details{
-  This is an auxiliary function needed to prepare \code{arguments} for a
+  \code{Rdo_create} is an auxiliary function used to prepare \code{arguments} for a
   call to \code{Rd_help2txt} since the latter works on Rd objects or text but
   not on Rd sections.
+
+  \code{Rdo_empty} creates an empty object of class "Rd"  if
+  \code{rdtag} is missing. If \code{rdtag} is supplied the object is a
+  list with attribute "Rd_tag" set to \code{rdtag}.
 }
 \value{
-  an Rd object
+  an Rd object or a list with attribute "Rd_tag".
 }
-% \references{
-% %% ~put references to the literature/web site here ~
-% }
-% \author{
-% %%  ~~who you are~~
-% }
 \author{Georgi N. Boshnakov}
-
-% \note{
-% %%  ~~further notes~~
-% }
-%
-% %% ~Make other sections like Warning with \section{Warning }{....} ~
-%
-% \seealso{
-% %% ~~objects to See Also as \code{\link{help}}, ~~~
-% }
 \examples{
 require(tools)   # for Rd2txt
 a1 <- Rdo_get_args("seq")
@@ -52,7 +44,7 @@ a2
 Rdo_create(a2)
 Rd2txt(Rdo_create(a2))
 
+Rdo_empty()
+class(Rdo_empty())
+str(Rdo_empty())
 }
-% % Add one or more standard keywords, see file 'KEYWORDS' in the
-% % R documentation directory.
-\keyword{ Rd }
