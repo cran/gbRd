@@ -28,7 +28,7 @@ Rdo_section <- function(rdo, sec){                                # 2011-10-30 -
         type <- ""
 
     if(identical(class(rdo),"Rd") || type == "Rd"){
-        tags <- tools:::RdTags(rdo)
+        tags <- toolsdotdotdotRdTags(rdo)
         indx <- which(tags==sec)             # todo: What to return when there are no matches?
         if(length(indx) > 1){
             warning(paste("Found more than one section named", sec,
@@ -59,7 +59,7 @@ Rdo_get_args <- function(rd,args,...){     # tools:::RdTags(rd[[which(tags=="\\a
                   , keep_section  = "\\arguments"
                   )
 
-    tags <- tools:::RdTags(rdo)
+    tags <- toolsdotdotdotRdTags(rdo)
     rdargs <- rdo[[which(tags=="\\arguments")]]   # use of [[]] assumes only one element here
                                                   # not a problem for installed documentation.
               # to do: Ako iskam da vklyucha obrabotka na prazni redove i drug text mezhdu
@@ -111,7 +111,7 @@ Rdo_get_arg <- function(rd,arg){
 Rdo_args2txt_list <- function(x,arg,...){
     rdo <- Rd_fun(x)
     if(missing(arg)){
-        tmparg <- tools:::.Rd_get_argument_names(rdo)
+        tmparg <- .Rd_get_argument_names(rdo) # tools:::.Rd_get_argument_names(rdo)
 
         # correct for merged descriptions...
         arg <- character(0)
@@ -154,7 +154,7 @@ Rd_help2txt <- function(x, topic, pkgname=""
                   , keep_section     = keep_section
                   )
 
-    temp <- tools::Rd2txt(rdo, out=tempfile("Rtxt"), package=pkgname)
+    temp <- Rd2txt(rdo, out=tempfile("Rtxt"), package=pkgname)
 
     res <- readLines(temp) # note: temp is a (temporary) file name.
     unlink(temp)
@@ -187,10 +187,10 @@ Rd_fun <- function(x, topic, pkgname   = ""
                     , keep_section     = TRUE
                    ){
     rdo <- NULL         # prepare the "Rd" object rdo; # is it better to check with "inherit"?
-    if(class(x) == "Rd"){  # if(inherits(file, "Rd")) ...
+    if(inherits(x, "Rd")){ # class(x) == "Rd"  # if(inherits(file, "Rd")) ...
         rdo <- x
     }else{
-        if(class(x) != "help_files_with_topic" ){
+        if(!inherits(x, "help_files_with_topic")){ # class(x) != "help_files_with_topic" 
                # The following comments baffle me now. Does `do.call' resolve the issues?
                #
                # help returns an object of class "help_files_with_topic" the
@@ -214,7 +214,7 @@ Rd_fun <- function(x, topic, pkgname   = ""
         }
         ## Check for errors! ???
 
-        if(class(x) == "help_files_with_topic"){
+        if(inherits(x, "help_files_with_topic")){  # class(x) == "help_files_with_topic"
                                                   # from print.help_files_with_topic in help.R
                                                   #
                                                   # browser <- getOption("browser")
@@ -239,10 +239,7 @@ Rd_fun <- function(x, topic, pkgname   = ""
                              # cat("RdDB is: ", paste(RdDB, "rdx", sep="."),"\n")
 
             if(file.exists(paste(RdDB, "rdx", sep="."))) {
-                rdo <- tools:::fetchRdDB(RdDB, basename(file))
-                                                          # a debugging message, remove later!
-                   # cat("Class of object returned by \"tools:::fetchRdDB: ", class(rdo),"\n")
-                   # really returns "Rd".
+                rdo <- toolsdotdotdotfetchRdDB(RdDB, basename(file))
             }
         }
     }
@@ -250,7 +247,7 @@ Rd_fun <- function(x, topic, pkgname   = ""
         stop("rdo object is NULL!")
 
     if(is.character(keep_section) && length(keep_section)>0){
-        tags <- tools:::RdTags(rdo)
+        tags <- toolsdotdotdotRdTags(rdo)
         keep_tags <- unique(c("\\title","\\name",keep_section))
         rdo[which(!(tags %in% keep_tags))] <-  NULL
     }
@@ -258,11 +255,60 @@ Rd_fun <- function(x, topic, pkgname   = ""
     rdo
 }
 
-
-# wrk[[1]] <- Rd_name("Random name")
-# wrk[[2]] <- Rd_title("Kukurigu")
 # Rd2txt(wrk)
 # Rd2HTML(wrk)
 
 # 2011-10-30 premestvam v Rdpack funktsiite napisani sled publikuvane na originalnata
-# versiya.
+#            versiya na gbRd.
+
+   ## 2013-11-28 the following are copied from 'tools' to avoid calling non-exported functions
+
+## > tools:::RdTags
+toolsdotdotdotRdTags <-
+function (Rd)
+{
+    res <- sapply(Rd, attr, "Rd_tag")
+    if (!length(res))
+        res <- character()
+    res
+}
+
+## > tools:::fetchRdDB
+toolsdotdotdotfetchRdDB <-
+function (filebase, key = NULL)
+{
+    fun <- function(db) {
+        vals <- db$vals
+        vars <- db$vars
+        datafile <- db$datafile
+        compressed <- db$compressed
+        envhook <- db$envhook
+        fetch <- function(key) lazyLoadDBfetch(vals[key][[1L]],
+            datafile, compressed, envhook)
+        if (length(key)) {
+            if (!key %in% vars)
+                stop(gettextf("No help on %s found in RdDB %s",
+                  sQuote(key), sQuote(filebase)), domain = NA)
+            fetch(key)
+        }
+        else {
+            res <- lapply(vars, fetch)
+            names(res) <- vars
+            res
+        }
+    }
+    res <- lazyLoadDBexec(filebase, fun)
+    if (length(key))
+        res
+    else invisible(res)
+}
+
+.Rd_get_argument_names <- local({
+    f <- function(x,y) NULL
+    function(x){
+        ## if(is.null(f))
+        if(length(formals(f)) > 1)
+            f <<- utils::getFromNamespace(".Rd_get_argument_names", "tools")
+        f(x)
+    }
+})

@@ -1,1 +1,19 @@
-exportPattern("^[[:alpha:]]+")
+importFrom(tools, Rd2txt, Rd2txt_options)
+
+export(
+Rd_args
+, Rd_fun
+, Rd_help2txt
+, Rd_name
+, Rd_title
+, Rdo_args2txt
+, Rdo_args2txt_list
+, Rdo_create
+, Rdo_empty
+, Rdo_get_arg
+, Rdo_get_args
+, Rdo_section
+, Rdo_set_sectag
+#, toolsdotdotdotfetchRdDB
+#, toolsdotdotdotRdTags
+)

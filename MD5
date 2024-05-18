@@ -1,6 +1,8 @@
-5bb1fb96bd9ab3f655a519ba81a95eac *DESCRIPTION
-df390c53434517b304ac5db487184641 *NAMESPACE
-965f35582ac116bee59e60c3c87a7d67 *R/Rdutils.R
+27d6aeaa1738c9cce52afc218320eb87 *DESCRIPTION
+a6162e8acf74bf62da14f639c81c74a5 *NAMESPACE
+7e7adbdc5d03a0c4f188793eb758139d *NEWS.md
+64fa7cb6e934c26520565d3fc160bb4d *R/Rdutils.R
+b2ccba6a679b12a1a1df0c8362a1df3c *README.md
 2f17e683ad7f2f093a843a1ff2696d34 *man/Rd_fun.Rd
 16bbe425d3728e98a79bcd409254d634 *man/Rd_help2txt.Rd
 abebeaa25e59c35dc693c1e65209ba92 *man/Rd_title.Rd
@@ -9,4 +11,4 @@ ce3f9f5efcf76fb70f7df4cd55c9e0c8 *man/Rdo_args2txt.Rd
 393d3a37bdf828c13b096747f2eb2eb5 *man/Rdo_create.Rd
 41d4c934b18a5b7993d65b47ba046b0a *man/Rdo_get_args.Rd
 70c602f8781979e2f3e6aa02effc2aa4 *man/Rdo_section.Rd
-20b87ec4214cda690d17c53a67df51fb *man/gbRd-package.Rd
+514347d2a4359a999ea02e6297530fee *man/gbRd-package.Rd
